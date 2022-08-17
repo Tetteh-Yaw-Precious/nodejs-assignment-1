@@ -74,6 +74,48 @@ app.get('/students', (_, res) => {
   });
 });
 
+//getting a particular student
+app.get('/students/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  classList.forEach((student) => {
+    if (student.id === id) {
+      console.log(student);
+      return res.status(200).send(student);
+    }
+  });
+  return res.status(404).send('no student found');
+});
+
+//Deleting a particular student
+app.delete('/students/delete/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  classList.forEach((student) => {
+    if (student.id == id) {
+      const i = classList.indexOf(student);
+      classList.splice(i, 1);
+
+      classList.forEach((student) => {
+        student.id = classList.indexOf(student) + 1;
+        console.log(student, student.id);
+      });
+      const newStudentList = JSON.stringify(classList);
+      fs.writeFile(
+        `${__dirname}/sample-data/classlist.json`,
+        newStudentList,
+        (err) => {
+          if (err) {
+            console.log('error in writing file');
+          }
+          return res.status(200).send('done');
+          console.log('done writing the file');
+        }
+      );
+    }
+    console.log('not found');
+  });
+});
 app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
