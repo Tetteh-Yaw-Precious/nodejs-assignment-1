@@ -8,7 +8,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = 2000;
 
-//using middleware
+/**
+ * Using middleware so I'd be able to take json a object body
+ */
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -16,24 +18,38 @@ app.use(
   })
 );
 
-//reading the classlist from the file directory
+/*
+eading the classlist from the file directory and parsing
+it down to javascript array*/
+
 const classList = JSON.parse(
   fs.readFileSync(`${__dirname}/sample-data/classlist.json`)
 );
 
-//collecting and storing new student details
+//creating add student request
 app.post('/addstudent', (req, res) => {
-  //creating body object
+  //calculating the id of the new student
   const id = classList.length + 1;
+  //setting up the new student body object
   req.body.newStudent = {
     id: id,
     name: req.body.name,
     age: req.body.age,
     favsubject: req.body.favsubject,
   };
+
+  //pushing the new student details collected into the classlist array
   classList.push(req.body.newStudent);
 
+  /*
+  converting the mutated array into an json format so we can write it into the classlist file
+   */
   const newStudentList = JSON.stringify(classList);
+
+  /**after converting the new array into json format, It's time
+   to write it back to the filesystem
+   * */
+
   fs.writeFile(
     `${__dirname}/sample-data/classlist.json`,
     newStudentList,
