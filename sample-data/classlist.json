@@ -1,0 +1,9 @@
+[
+  { "id": 1, "name": "Precious Tetteh", "age": 13, "favsubject": "Maths" },
+  { "id": 2, "name": "Barnabas Suleman", "age": 16, "favsubject": "English" },
+  { "id": 3, "name": "Sophia Simons", "age": 15, "favsubject": "Physics" },
+  { "id": 4, "name": "patrick who", "age": 15, "favsubject": "rme" },
+  { "id": 5, "name": "patrick Tetteh", "age": 15, "favsubject": "BDT" },
+  { "id": 6, "name": "Afeku Christopher", "age": 25, "favsubject": "Coding" },
+  { "id": 7, "name": "Asamoah Gyan", "age": 45, "favsubject": "Eating" }
+]
