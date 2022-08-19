@@ -31,15 +31,22 @@ app.post('/addstudent', (req, res) => {
   //calculating the id of the new student
   const id = classList.length + 1;
   //setting up the new student body object
-  req.body.newStudent = {
+//   req.body.newStudent = {
+//     id: id,
+//     name: req.body.name,
+//     age: req.body.age,
+//     favsubject: req.body.favsubject,
+//   };
+  
+  const newStudent = {
     id: id,
     name: req.body.name,
     age: req.body.age,
     favsubject: req.body.favsubject,
-  };
+  }; 
 
   //pushing the new student details collected into the classlist array
-  classList.push(req.body.newStudent);
+  classList.push(newStudent);
 
   /*
   converting the mutated array into an json format so we can write it into the classlist file
@@ -56,22 +63,18 @@ app.post('/addstudent', (req, res) => {
     (err) => {
       if (err) {
         console.log('error in writing file');
+        return res.status(500).send("Server error")
       }
-      console.log('new student added');
     }
   );
-  res.end('done');
+  return res.status(201).send("Student created")
 });
 
 //getting all students
 app.get('/students', (_, res) => {
-  res.status(200).send({
-    status: 200,
-    result: classList.length,
-    data: {
-      students: classList,
-    },
-  });
+ 
+  
+  res.status(200).send(classList);
 });
 
 //getting a particular student
@@ -107,13 +110,15 @@ app.delete('/students/delete/:id', (req, res) => {
         (err) => {
           if (err) {
             console.log('error in writing file');
+            return res.status(500).send("server error")
           }
-          return res.status(200).send('done');
-          console.log('done writing the file');
+           console.log('done writing the file');
+          return res.status(200).send('successful');
         }
       );
     }
     console.log('not found');
+    return res.status(404).send('user not found')
   });
 });
 app.listen(port, () => {
